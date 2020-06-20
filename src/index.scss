@@ -13,10 +13,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.container {
-  border: 1px solid red;
-  display: flex;
-  flex-wrap: wrap;
-  width: 1200px;
-  margin: 0 auto;
-}
+// .container {
+//   border: 1px solid red;
+//   display: grid;
+//   grid-template-columns: repeat(50, 20px);
+//   width: 1200px;
+//   margin: 0 auto;
+// }
