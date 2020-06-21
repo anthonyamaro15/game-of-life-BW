@@ -1,8 +1,6 @@
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import produce from "immer";
 
-const numRows = 50;
-const numCols = 50;
 const operations = [
   [0, 1],
   [0, -1],
@@ -14,20 +12,24 @@ const operations = [
   [-1, 0],
 ];
 
-const generateEmptyGrid = () => {
-  const rows = [];
-  for (let i = 0; i < numRows; i++) {
-    rows.push(Array.from(Array(numCols), () => 0));
-  }
-  return rows;
-};
 const MainApp = () => {
+  const [running, setRunning] = useState(false);
+  const [isCell, setIsCell] = useState(false);
+  const [gridValues, setGridValues] = useState({ numRows: 50, numCols: 50 });
+
+  const generateEmptyGrid = () => {
+    const rows = [];
+    for (let i = 0; i < gridValues.numRows; i++) {
+      rows.push(Array.from(Array(gridValues.numCols), () => 0));
+    }
+
+    return rows;
+  };
+
   const [grid, setGrid] = useState(() => {
     return generateEmptyGrid();
   });
 
-  const [running, setRunning] = useState(false);
-  const [isCell, setIsCell] = useState(false);
   const runningRef = useRef(running);
   runningRef.current = running;
 
@@ -37,6 +39,7 @@ const MainApp = () => {
     }
 
     setGrid((g) => {
+      const { numCols, numRows } = gridValues;
       return produce(g, (gridCopy) => {
         for (let i = 0; i < numRows; i++) {
           for (let k = 0; k < numCols; k++) {
@@ -59,53 +62,78 @@ const MainApp = () => {
       });
     });
     setTimeout(runSimulation, 500);
-  }, []);
+  }, [gridValues]);
+
+  console.log(grid);
 
   const changeGrid = () => {
     setIsCell(!isCell);
   };
+  //   console.log("current values ", gridValues);
+
+  const onSubmit = (value) => {
+    const toNum = Number(value.target.value);
+    const newValues = {
+      numCols: toNum,
+      numRows: toNum,
+    };
+    setGridValues(newValues);
+  };
 
   return (
-    <div>
-      <button
-        onClick={() => {
-          setRunning(!running);
-          if (!running) {
-            runningRef.current = true;
-            runSimulation();
-          }
-        }}
-      >
-        {running ? "stop" : "start"}
-      </button>
-      <button
-        onClick={() => {
-          setGrid(generateEmptyGrid());
-        }}
-      >
-        clear
-      </button>
+    <div className="Main-container">
+      <div className="btns-container">
+        <button
+          onClick={() => {
+            setRunning(!running);
+            if (!running) {
+              runningRef.current = true;
+              runSimulation();
+            }
+          }}
+        >
+          {running ? "stop" : "start"}
+        </button>
+        <button
+          onClick={() => {
+            setGrid(generateEmptyGrid());
+          }}
+        >
+          clear
+        </button>
 
-      <button
-        onClick={() => {
-          const rows = [];
-          for (let i = 0; i < numRows; i++) {
-            rows.push(
-              Array.from(Array(numCols), () => (Math.random() > 0.6 ? 1 : 0))
-            );
-          }
-          setGrid(rows);
-        }}
-      >
-        {" "}
-        random
-      </button>
-      <button onClick={changeGrid}>grid</button>
+        <button
+          onClick={() => {
+            const rows = [];
+            for (let i = 0; i < gridValues.numRows; i++) {
+              rows.push(
+                Array.from(Array(gridValues.numCols), () =>
+                  Math.random() > 0.6 ? 1 : 0
+                )
+              );
+            }
+            setGrid(rows);
+          }}
+        >
+          {" "}
+          random
+        </button>
+        <button onClick={changeGrid}>grid</button>
+        <select name="size" id="size" onChange={onSubmit}>
+          <option value="">Choose grid size</option>
+          <option value="20">20x20</option>
+          <option value="30">30x30</option>
+          <option value="40">40x40</option>
+          <option value="50">50x50</option>
+          <option value="60">60x60</option>
+          <option value="70">70x70</option>
+        </select>
+      </div>
       <div
         className="container"
         style={{
           display: "grid",
-          gridTemplateColumns: `repeat(${numCols}, 15px)`,
+          gridTemplateColumns: `repeat(${gridValues.numCols}, 15px)`,
         }}
       >
         {grid.map((rows, i) =>
@@ -121,10 +149,7 @@ const MainApp = () => {
                 setGrid(newGrid);
               }}
               style={{
-                //  width: 20,
-                //  height: 20,
                 backgroundColor: grid[i][k] ? "red" : undefined,
-                //  border: "solid 1px black",
               }}
             ></button>
           ))
