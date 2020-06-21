@@ -13,30 +13,59 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-// .container {
-//   border: 1px solid red;
-//   display: grid;
-//   grid-template-columns: repeat(50, 20px);
-//   width: 1200px;
-//   margin: 0 auto;
-// }
-
 button {
   outline: none;
   border: none;
   background: none;
 }
 
-.grid-cells {
-  width: 15px;
-  height: 15px;
-  border: 1px solid black;
-}
+.Main-container {
+  margin-top: 5rem;
+  padding: 0 1rem;
+  border: 1px solid red;
+  width: 1200px;
+  margin: 5rem auto 0;
+  .btns-container {
+    width: 1200px;
+    //  text-align: center;
+    margin: auto;
+    button {
+      border: 1px solid grey;
+      padding: 0.3rem 1rem;
+      display: inline-block;
+      margin: 0 1rem;
+      cursor: pointer;
 
-.cells {
-  border-radius: 50%;
-  width: 15px;
-  height: 15px;
-  color: red;
-  font-size: 1.2rem;
+      &:first-child {
+        margin: 0;
+      }
+      &:last-child {
+        margin: 0;
+      }
+
+      &:nth-child(2) {
+        margin-right: 0;
+      }
+    }
+  }
+  .container {
+    margin-top: 3rem;
+
+    .grid-cells {
+      width: 15px;
+      height: 15px;
+      border: 1px solid black;
+      //   border-left: none;
+      //   border-top: none;
+    }
+
+    .cells {
+      border-radius: 50%;
+      width: 15px;
+      height: 15px;
+
+      color: red;
+      font-size: 1.2rem;
+    }
+  }
 }
