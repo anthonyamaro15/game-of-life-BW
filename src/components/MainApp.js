@@ -16,6 +16,7 @@ const MainApp = () => {
   const [running, setRunning] = useState(false);
   const [isCell, setIsCell] = useState(false);
   const [gridValues, setGridValues] = useState({ numRows: 50, numCols: 50 });
+  const [speed, setSpeed] = useState(500);
 
   const generateEmptyGrid = () => {
     const rows = [];
@@ -61,10 +62,10 @@ const MainApp = () => {
         }
       });
     });
-    setTimeout(runSimulation, 500);
-  }, [gridValues]);
+    setTimeout(runSimulation, speed);
+  }, [gridValues, speed]);
 
-  console.log(grid);
+  //   console.log(grid);
 
   const changeGrid = () => {
     setIsCell(!isCell);
@@ -80,6 +81,12 @@ const MainApp = () => {
     setGridValues(newValues);
   };
 
+  const checkSpeed = (value) => {
+    //  console.log(value.target.value);
+    const toNum = Number(value.target.value);
+    setSpeed(toNum);
+  };
+  console.log("current ", speed);
   return (
     <div className="Main-container">
       <div className="btns-container">
@@ -127,6 +134,15 @@ const MainApp = () => {
           <option value="50">50x50</option>
           <option value="60">60x60</option>
           <option value="70">70x70</option>
+        </select>
+
+        <select name="speed" id="speed" onChange={checkSpeed}>
+          <option value="">Choose speed</option>
+          <option value="500">0.5s</option>
+          <option value="1000">1s</option>
+          <option value="1250">1.25s</option>
+          <option value="1500">1.50s</option>
+          <option value="3000">3s</option>
         </select>
       </div>
       <div
