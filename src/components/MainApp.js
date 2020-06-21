@@ -27,6 +27,7 @@ const MainApp = () => {
   });
 
   const [running, setRunning] = useState(false);
+  const [isCell, setIsCell] = useState(false);
   const runningRef = useRef(running);
   runningRef.current = running;
 
@@ -42,6 +43,7 @@ const MainApp = () => {
             let neighbors = 0;
             operations.forEach(([x, y]) => {
               const newI = i + x;
+
               const newK = k + y;
               if (newI >= 0 && newI < numRows && newK >= 0 && newK < numCols) {
                 neighbors += g[newI][newK];
@@ -58,6 +60,10 @@ const MainApp = () => {
     });
     setTimeout(runSimulation, 500);
   }, []);
+
+  const changeGrid = () => {
+    setIsCell(!isCell);
+  };
 
   return (
     <div>
@@ -85,7 +91,7 @@ const MainApp = () => {
           const rows = [];
           for (let i = 0; i < numRows; i++) {
             rows.push(
-              Array.from(Array(numCols), () => (Math.random() > 0.7 ? 1 : 0))
+              Array.from(Array(numCols), () => (Math.random() > 0.6 ? 1 : 0))
             );
           }
           setGrid(rows);
@@ -94,16 +100,19 @@ const MainApp = () => {
         {" "}
         random
       </button>
+      <button onClick={changeGrid}>grid</button>
       <div
         className="container"
         style={{
           display: "grid",
-          gridTemplateColumns: `repeat(${numCols}, 20px)`,
+          gridTemplateColumns: `repeat(${numCols}, 15px)`,
         }}
       >
         {grid.map((rows, i) =>
           rows.map((col, k) => (
-            <div
+            <button
+              className={isCell ? "cells" : "grid-cells"}
+              disabled={running}
               key={`${i}_${k}`}
               onClick={() => {
                 const newGrid = produce(grid, (gridCopy) => {
@@ -112,12 +121,12 @@ const MainApp = () => {
                 setGrid(newGrid);
               }}
               style={{
-                width: 20,
-                height: 20,
+                //  width: 20,
+                //  height: 20,
                 backgroundColor: grid[i][k] ? "red" : undefined,
-                border: "solid 1px black",
+                //  border: "solid 1px black",
               }}
-            ></div>
+            ></button>
           ))
         )}
       </div>
