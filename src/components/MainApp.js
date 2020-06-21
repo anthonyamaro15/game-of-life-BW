@@ -19,6 +19,10 @@ const MainApp = () => {
   const [speed, setSpeed] = useState(500);
   const [color, setColor] = useState("black");
 
+  useEffect(() => {
+    clearCells();
+  }, [gridValues]);
+
   const generateEmptyGrid = () => {
     const rows = [];
     for (let i = 0; i < gridValues.numRows; i++) {
@@ -43,7 +47,7 @@ const MainApp = () => {
     setGrid((g) => {
       const { numCols, numRows } = gridValues;
       return produce(g, (gridCopy) => {
-        console.log("g hre ", g);
+        //   console.log("g hre ", g);
         for (let i = 0; i < numRows; i++) {
           //  console.log("here ", i);
           for (let k = 0; k < numCols; k++) {
@@ -69,14 +73,18 @@ const MainApp = () => {
     setTimeout(runSimulation, speed);
   }, [gridValues, speed]);
 
-  //   console.log(grid);
+  //   console.log("here ", gridValues);
+
+  function clearCells() {
+    setGrid(generateEmptyGrid());
+  }
 
   const changeGrid = () => {
     setIsCell(!isCell);
   };
   //   console.log("current values ", gridValues);
 
-  const onSubmit = (value) => {
+  const changeGridSize = (value) => {
     const toNum = Number(value.target.value);
     const newValues = {
       numCols: toNum,
@@ -85,12 +93,12 @@ const MainApp = () => {
     setGridValues(newValues);
   };
 
-  const checkSpeed = (value) => {
+  const changeSpeed = (value) => {
     //  console.log(value.target.value);
     const toNum = Number(value.target.value);
     setSpeed(toNum);
   };
-  const drawCells = (e) => {
+  const toggleStartStop = (e) => {
     console.log("here ", e.target.value);
     setRunning(!running);
     if (!running) {
@@ -120,14 +128,8 @@ const MainApp = () => {
   return (
     <div className="Main-container">
       <div className="btns-container">
-        <button onClick={drawCells}>{running ? "stop" : "start"}</button>
-        <button
-          onClick={() => {
-            setGrid(generateEmptyGrid());
-          }}
-        >
-          clear
-        </button>
+        <button onClick={toggleStartStop}>{running ? "stop" : "start"}</button>
+        <button onClick={clearCells}>clear</button>
 
         <button onClick={randomCells}> random</button>
         <button onClick={changeGrid}>grid</button>
@@ -135,7 +137,7 @@ const MainApp = () => {
           <input type="color" onChange={getColor} placeholder="color" />
         </label>
 
-        <select name="size" id="size" onChange={onSubmit}>
+        <select name="size" id="size" onChange={changeGridSize}>
           <option value="">Choose grid size</option>
           <option value="20">20x20 </option>
           <option value="30">30x30</option>
@@ -145,7 +147,7 @@ const MainApp = () => {
           <option value="70">70x70</option>
         </select>
 
-        <select name="speed" id="speed" onChange={checkSpeed}>
+        <select name="speed" id="speed" onChange={changeSpeed}>
           <option value="">Choose speed</option>
           <option value="250">.25s</option>
           <option value="500">0.50s</option>
