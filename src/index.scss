@@ -20,3 +20,23 @@ body {
 //   width: 1200px;
 //   margin: 0 auto;
 // }
+
+button {
+  outline: none;
+  border: none;
+  background: none;
+}
+
+.grid-cells {
+  width: 15px;
+  height: 15px;
+  border: 1px solid black;
+}
+
+.cells {
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  color: red;
+  font-size: 1.2rem;
+}
