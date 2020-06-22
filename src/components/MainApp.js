@@ -58,6 +58,7 @@ const MainApp = () => {
               const newK = k + y;
               if (newI >= 0 && newI < numRows && newK >= 0 && newK < numCols) {
                 neighbors += g[newI][newK];
+                //  console.log("neighbors ", neighbors);
               }
             });
             if (neighbors < 2 || neighbors > 3) {
@@ -73,7 +74,7 @@ const MainApp = () => {
     setTimeout(runSimulation, speed);
   }, [gridValues, speed]);
 
-  //   console.log("here ", gridValues);
+  //   console.log("here ", grid);
 
   function clearCells() {
     setGrid(generateEmptyGrid());
@@ -99,7 +100,7 @@ const MainApp = () => {
     setSpeed(toNum);
   };
   const toggleStartStop = (e) => {
-    console.log("here ", e.target.value);
+    //  console.log("here ", e.target.value);
     setRunning(!running);
     if (!running) {
       runningRef.current = true;
