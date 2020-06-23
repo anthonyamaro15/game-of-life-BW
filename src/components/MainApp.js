@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import produce from "immer";
+import GameRules from "./GameRules";
 
 const operations = [
   [0, 1],
@@ -12,30 +13,32 @@ const operations = [
   [-1, 0],
 ];
 
+const generateEmptyGrid = (numRows, numCols) => {
+  const rows = [];
+  for (let i = 0; i < numRows; i++) {
+    rows.push(Array.from(Array(numCols), () => 0));
+  }
+  //  console.log(rows);
+  return rows;
+};
+
 const MainApp = () => {
   const [running, setRunning] = useState(false);
   const [isCell, setIsCell] = useState(false);
-  const [gridValues, setGridValues] = useState({ numRows: 40, numCols: 40 });
+  const [{ numRows, numCols }, setGridValues] = useState({
+    numRows: 40,
+    numCols: 40,
+  });
   const [speed, setSpeed] = useState(1000);
   const [color, setColor] = useState("black");
   let [count, setCount] = useState(0);
+  const [grid, setGrid] = useState(() => {
+    return generateEmptyGrid(numRows, numCols);
+  });
 
   useEffect(() => {
     clearCells();
-  }, [gridValues]);
-
-  const generateEmptyGrid = () => {
-    const rows = [];
-    for (let i = 0; i < gridValues.numRows; i++) {
-      rows.push(Array.from(Array(gridValues.numCols), () => 0));
-    }
-    //  console.log(rows);
-    return rows;
-  };
-
-  const [grid, setGrid] = useState(() => {
-    return generateEmptyGrid();
-  });
+  }, [numCols, numRows]);
 
   const runningRef = useRef(running);
   runningRef.current = running;
@@ -47,7 +50,7 @@ const MainApp = () => {
 
     //  g is an array with live cells
     setGrid((g) => {
-      const { numCols, numRows } = gridValues;
+      // const { numCols, numRows } = gridValues;
       return produce(g, (gridCopy) => {
         for (let i = 0; i < numRows; i++) {
           for (let k = 0; k < numCols; k++) {
@@ -77,20 +80,33 @@ const MainApp = () => {
     });
     setCount(count++);
     setTimeout(runSimulation, speed);
-  }, [gridValues, speed]);
+  }, [numRows, numCols, speed]);
 
   //   console.log("here ", grid);
   //   console.log("count here ", count);
 
   function clearCells() {
-    setGrid(generateEmptyGrid());
+    setGrid(generateEmptyGrid(numRows, numCols));
     setCount(0);
   }
 
   const changeGrid = () => {
     setIsCell(!isCell);
+    if (!isCell) {
+      randomCells();
+    }
   };
   //   console.log("current values ", gridValues);
+
+  function randomCells() {
+    const rows = [];
+    for (let i = 0; i < numRows; i++) {
+      rows.push(
+        Array.from(Array(numCols), () => (Math.random() > 0.6 ? 1 : 0))
+      );
+    }
+    setGrid(rows);
+  }
 
   const changeGridSize = (value) => {
     const toNum = Number(value.target.value);
@@ -99,6 +115,7 @@ const MainApp = () => {
       numRows: toNum,
     };
     setGridValues(newValues);
+    randomCells();
   };
 
   const changeSpeed = (value) => {
@@ -115,18 +132,6 @@ const MainApp = () => {
     }
   };
 
-  const randomCells = () => {
-    const rows = [];
-    for (let i = 0; i < gridValues.numRows; i++) {
-      rows.push(
-        Array.from(Array(gridValues.numCols), () =>
-          Math.random() > 0.6 ? 1 : 0
-        )
-      );
-    }
-    setGrid(rows);
-  };
-
   const getColor = (e) => {
     console.log(e.target.value);
     setColor(e.target.value);
@@ -135,6 +140,7 @@ const MainApp = () => {
   //   console.log("check ", grid);
   return (
     <div className="Main-container">
+      <h1 className="title">Conway's Game of Life</h1>
       <div className="btns-container">
         <button onClick={toggleStartStop}>{running ? "stop" : "start"}</button>
         <button onClick={clearCells}>clear</button>
@@ -145,7 +151,12 @@ const MainApp = () => {
           <input type="color" onChange={getColor} placeholder="color" />
         </label>
 
-        <select name="size" id="size" onChange={changeGridSize}>
+        <select
+          name="size"
+          id="size"
+          onChange={changeGridSize}
+          disabled={running}
+        >
           <option value="">Choose grid size</option>
           <option value="20">20x20 </option>
           <option value="30">30x30</option>
@@ -155,7 +166,12 @@ const MainApp = () => {
           <option value="70">70x70</option>
         </select>
 
-        <select name="speed" id="speed" onChange={changeSpeed}>
+        <select
+          name="speed"
+          id="speed"
+          onChange={changeSpeed}
+          disabled={running}
+        >
           <option value="">Choose speed</option>
           <option value="250">.25s</option>
           <option value="500">0.50s</option>
@@ -169,7 +185,7 @@ const MainApp = () => {
         className="container"
         style={{
           display: "grid",
-          gridTemplateColumns: `repeat(${gridValues.numCols}, 15px)`,
+          gridTemplateColumns: `repeat(${numCols}, 15px)`,
         }}
       >
         {grid.map((rows, i) =>
@@ -195,8 +211,11 @@ const MainApp = () => {
 
       <div className="game-description">
         <p className="generation">{`Generation : ${count}`}</p>
+        <div className="rules-btn">
+          <GameRules />
+        </div>
         <div className="desc">
-          <h1>about Conway's Game of Life</h1>
+          <h1>About</h1>
           <p>
             Conway's game of life was invented by Cambridge mathematician John
             Conway in 1970.
