@@ -150,7 +150,7 @@ const MainApp = () => {
           <button onClick={clearCells}>clear</button>
 
           <button onClick={randomCells}> random</button>
-          <button onClick={changeGrid}>grid</button>
+          <button onClick={changeGrid}>{!isCell ? 'grid': 'circles'}</button>
           <label htmlFor="colors">
             <input type="color" onChange={getColor} placeholder="color" />
           </label>
@@ -164,7 +164,7 @@ const MainApp = () => {
             <option value="">Choose grid size</option>
             <option value="20">20x20 </option>
             <option value="30">30x30</option>
-            <option value="40">40x40 default</option>
+            <option value="40">40x40 (default)</option>
             <option value="50">50x50</option>
             <option value="60">60x60</option>
             <option value="70">70x70</option>
@@ -177,12 +177,10 @@ const MainApp = () => {
             disabled={running}
           >
             <option value="">Choose speed</option>
-            <option value="250">.25s</option>
-            <option value="500">0.50s</option>
-            <option value="1000">1s default</option>
-            <option value="1250">1.25s</option>
-            <option value="1500">1.50s</option>
-            <option value="3000">3s</option>
+            <option value="100">Regular</option>
+            <option value="50">Fast (default)</option>
+            <option value="10">Super Fast</option>
+     
           </select>
         </div>
         <div

@@ -15,6 +15,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-family: "Raleway", sans-serif;
   color: #333;
+  
 }
 
 button,
@@ -46,30 +47,32 @@ input {
     margin: auto;
     display: flex;
     justify-content: space-between;
+
     button {
       border: 1px solid grey;
+      text-transform: capitalize;
       padding: 0.3rem 1rem;
       display: inline-block;
-      margin: 0 1rem;
+      // margin: 0 1rem;
       cursor: pointer;
+      
+      // &:first-child {
+      //   margin: 0;
+      // }
+      // &:last-child {
+      //   margin: 0;
+      // }
 
-      &:first-child {
-        margin: 0;
-      }
-      &:last-child {
-        margin: 0;
-      }
-
-      &:nth-child(2) {
-        margin-right: 0;
-      }
+      // &:nth-child(2) {
+      //   margin-right: 0;
+      // }
     }
 
     select {
       // border: 1px solid red;
       border: 1px solid grey;
       display: inline-block;
-      margin: 0 1rem;
+      // margin: 0 1rem;
     }
 
     #size {
