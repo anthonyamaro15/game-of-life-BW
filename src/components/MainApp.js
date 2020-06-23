@@ -15,9 +15,10 @@ const operations = [
 const MainApp = () => {
   const [running, setRunning] = useState(false);
   const [isCell, setIsCell] = useState(false);
-  const [gridValues, setGridValues] = useState({ numRows: 5, numCols: 5 });
-  const [speed, setSpeed] = useState(500);
+  const [gridValues, setGridValues] = useState({ numRows: 40, numCols: 40 });
+  const [speed, setSpeed] = useState(1000);
   const [color, setColor] = useState("black");
+  let [count, setCount] = useState(0);
 
   useEffect(() => {
     clearCells();
@@ -28,7 +29,7 @@ const MainApp = () => {
     for (let i = 0; i < gridValues.numRows; i++) {
       rows.push(Array.from(Array(gridValues.numCols), () => 0));
     }
-
+    //  console.log(rows);
     return rows;
   };
 
@@ -44,26 +45,29 @@ const MainApp = () => {
       return;
     }
 
+    //  g is an array with live cells
     setGrid((g) => {
       const { numCols, numRows } = gridValues;
       return produce(g, (gridCopy) => {
-        //   console.log("g hre ", g);
         for (let i = 0; i < numRows; i++) {
-          //  console.log("here ", i);
           for (let k = 0; k < numCols; k++) {
-            // console.log("here", k);
             let neighbors = 0;
             operations.forEach(([x, y]) => {
               const newI = i + x;
               const newK = k + y;
               if (newI >= 0 && newI < numRows && newK >= 0 && newK < numCols) {
+                // if this condition is true, we are saving the value from the index in
+                // neighbors variable.
                 neighbors += g[newI][newK];
-                //  console.log("neighbors ", neighbors);
               }
             });
+            // if cell has less than 2 neighbors OR more than 3 neighbors
+            // then the cell dies.
             if (neighbors < 2 || neighbors > 3) {
-              //   console.log("gridCopy ", g[i][k]);
               gridCopy[i][k] = 0;
+
+              //  if cell is dead but it has 3 live neighbors
+              // then cell becomes alive
             } else if (g[i][k] === 0 && neighbors === 3) {
               gridCopy[i][k] = 1;
             }
@@ -71,13 +75,16 @@ const MainApp = () => {
         }
       });
     });
+    setCount(count++);
     setTimeout(runSimulation, speed);
   }, [gridValues, speed]);
 
   //   console.log("here ", grid);
+  //   console.log("count here ", count);
 
   function clearCells() {
     setGrid(generateEmptyGrid());
+    setCount(0);
   }
 
   const changeGrid = () => {
@@ -184,6 +191,28 @@ const MainApp = () => {
             ></button>
           ))
         )}
+      </div>
+
+      <div className="game-description">
+        <p className="generation">{`Generation : ${count}`}</p>
+        <div className="desc">
+          <h1>about Conway's Game of Life</h1>
+          <p>
+            Conway's game of life was invented by Cambridge mathematician John
+            Conway in 1970.
+          </p>
+          <p>
+            Its rules are applied to create what we call a cellular Automaton, a
+            fancy word for a grid of cells that cycle through different states
+            over time.{" "}
+          </p>
+          <p>
+            It involves four simple rules which result in wildy differing
+            sequences. An initial group of live cells can create an
+            unpredictable chaotic sequence, sometimes it will create a repeating
+            sequence.
+          </p>
+        </div>
       </div>
     </div>
   );
