@@ -1,6 +1,8 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import produce from "immer";
-import GameRules from "./GameRules";
+import Buttons from './Buttons';
+import DisplayGrid from './DisplayGrid';
+import GameDescription from './GameDescription';
 import Footer from "./Footer";
 
 const operations = [
@@ -30,7 +32,7 @@ const MainApp = () => {
     numRows: 40,
     numCols: 40,
   });
-  const [speed, setSpeed] = useState(1000);
+  const [speed, setSpeed] = useState(100);
   const [color, setColor] = useState("black");
   let [count, setCount] = useState(0);
   const [grid, setGrid] = useState(() => {
@@ -143,98 +145,26 @@ const MainApp = () => {
     <>
       <div className="Main-container">
         <h1 className="title">Conway's Game of Life</h1>
-        <div className="btns-container">
-          <button onClick={toggleStartStop}>
-            {running ? "stop" : "start"}
-          </button>
-          <button onClick={clearCells}>clear</button>
+         <Buttons toggleStartStop={toggleStartStop} running={running}
+            randomCells={randomCells}
+            clearCells={clearCells}
+            isCell={isCell}
+            getColor={getColor}
+            changeGridSize={changeGridSize}
+            changeSpeed={changeSpeed}
+            changeGrid={changeGrid}
+         />
+        
+         <DisplayGrid 
+            numCols={numCols}
+            isCell={isCell}
+            running={running}
+            setGrid={setGrid}
+            color={color}
+            grid={grid}
+         />
 
-          <button onClick={randomCells}> random</button>
-          <button onClick={changeGrid}>{!isCell ? 'grid': 'circles'}</button>
-          <label htmlFor="colors">
-            <input type="color" onChange={getColor} placeholder="color" />
-          </label>
-
-          <select
-            name="size"
-            id="size"
-            onChange={changeGridSize}
-            disabled={running}
-          >
-            <option value="">Choose grid size</option>
-            <option value="20">20x20 </option>
-            <option value="30">30x30</option>
-            <option value="40">40x40 (default)</option>
-            <option value="50">50x50</option>
-            <option value="60">60x60</option>
-            <option value="70">70x70</option>
-          </select>
-
-          <select
-            name="speed"
-            id="speed"
-            onChange={changeSpeed}
-            disabled={running}
-          >
-            <option value="">Choose speed</option>
-            <option value="100">Regular</option>
-            <option value="50">Fast (default)</option>
-            <option value="10">Super Fast</option>
-     
-          </select>
-        </div>
-        <div
-          className="container"
-          style={{
-            display: "grid",
-            gridTemplateColumns: `repeat(${numCols}, 15px)`,
-          }}
-        >
-          {grid.map((rows, i) =>
-            rows.map((col, k) => (
-              <button
-                className={isCell ? "cells" : "grid-cells"}
-                disabled={running}
-                key={`${i}_${k}`}
-                onClick={() => {
-                  const newGrid = produce(grid, (gridCopy) => {
-                    gridCopy[i][k] = grid[i][k] ? 0 : 1;
-                  });
-                  //  console.log("here ", newGrid);
-                  setGrid(newGrid);
-                }}
-                style={{
-                  backgroundColor: grid[i][k] ? color : undefined,
-                }}
-              ></button>
-            ))
-          )}
-        </div>
-
-        <div className="game-description">
-          <p className="generation">{`Generation : ${count}`}</p>
-          <div className="rules-btn">
-            <GameRules />
-          </div>
-          <div className="desc">
-            <h1>About</h1>
-            <p>
-              Conway's game of life was invented by Cambridge mathematician John
-              Conway in 1970.
-            </p>
-            <p>
-              Its rules are applied to create what we call a cellular Automaton,
-              a fancy word for a grid of cells that cycle through different
-              states over time.{" "}
-            </p>
-            <p>
-              It involves four simple rules which result in wildy differing
-              sequences. An initial group of live cells can create an
-              unpredictable chaotic sequence, sometimes it will create a
-              repeating sequence.
-            </p>
-          </div>
-        </div>
+        <GameDescription count={count} />
       </div>
       <Footer />
     </>
