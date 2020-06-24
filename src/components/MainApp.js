@@ -92,8 +92,6 @@ const MainApp = () => {
     setTimeout(runSimulation, speed);
   }, [numRows, numCols, speed, count]);
 
-  //   console.log("here ", grid);
-  //   console.log("count here ", count);
 
 //   const generate = () => {
 //      let g = generateEmptyGrid(numRows, numCols);
