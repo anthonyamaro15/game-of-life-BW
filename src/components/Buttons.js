@@ -41,9 +41,9 @@ const Buttons = ({toggleStartStop, running, randomCells, clearCells, isCell, get
             
           >
             <option value="">Choose grid size</option>
-            <option value="20">20x20 </option>
-            <option value="30">30x30</option>
-             <option value="40">40x40 (default)</option>
+            <option value="20">20x20</option>
+            <option value="30">30x30 (default)</option>
+             <option value="40">40x40</option>
             <option value="50">50x50</option>
             <option value="60">60x60</option>
             <option value="70">70x70</option>
