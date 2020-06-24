@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Game of Life",
+  "name": "Conways Game of Life",
   "icons": [
     {
       "src": "./processor.png",
@@ -8,9 +8,9 @@
       "type": "image/png"
     },
     {
-      "src": "logo192.png",
+      "src": ".processor512.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "512x512"
     },
     {
       "src": ".processor512.png",
