@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Buttons = ({toggleStartStop, running, randomCells, clearCells, isCell, getColor, changeGridSize, changeSpeed, changeGrid }) => {
+const Buttons = ({toggleStartStop, running, randomCells, clearCells, isCell, getColor, changeGridSize, changeSpeed, changeGrid, isPhone }) => {
    return (
        <div className="btns-container">
        
@@ -15,20 +15,41 @@ const Buttons = ({toggleStartStop, running, randomCells, clearCells, isCell, get
             <input type="color" onChange={getColor} placeholder="color" />
           </label>
 
-          <select
+          
+         {/**
+            this changes base on the screen size. if it is in a phone
+            then we only display 2 grids to choose from
+         */}
+          {isPhone ? (
+             <select
             name="size"
             id="size"
             onChange={changeGridSize}
             disabled={running}
+            
+          >
+            <option value="">Choose grid size</option>
+            <option value="20">20x20</option>
+            <option value="30">30x30 (default)</option>
+             </select>
+          ) : (
+               <select
+            name="size"
+            id="size"
+            onChange={changeGridSize}
+            disabled={running}
+            
           >
             <option value="">Choose grid size</option>
             <option value="20">20x20 </option>
             <option value="30">30x30</option>
-            <option value="40">40x40 (default)</option>
+             <option value="40">40x40 (default)</option>
             <option value="50">50x50</option>
             <option value="60">60x60</option>
             <option value="70">70x70</option>
-          </select>
+            </select>
+          )}
+         
 
           <select
             name="speed"
