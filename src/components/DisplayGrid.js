@@ -1,14 +1,18 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import produce from 'immer';
 
 
-const DisplayGrid = ({numCols, grid, isCell, running, setGrid, color}) => {
+const DisplayGrid = ({numCols, grid, isCell, running, setGrid, color, isPhone}) => {
+ 
+
+   let desktop = '15px';
+   let phone = '12px';
    return (
       <div
           className="container"
           style={{
             display: "grid",
-            gridTemplateColumns: `repeat(${numCols}, 15px)`,
+            gridTemplateColumns: `repeat(${numCols}, ${isPhone ? phone : desktop })`,
           }}
         >
           {grid.map((rows, i) =>

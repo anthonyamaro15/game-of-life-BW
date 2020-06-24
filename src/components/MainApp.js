@@ -27,9 +27,10 @@ const generateEmptyGrid = (numRows, numCols) => {
 const MainApp = () => {
   const [running, setRunning] = useState(false);
   const [isCell, setIsCell] = useState(false);
+  const [isPhone, setIsPhone] = useState(false);
   const [{ numRows, numCols }, setGridValues] = useState({
-    numRows: 40,
-    numCols: 40,
+    numRows: 30,
+    numCols: 30,
   });
   const [speed, setSpeed] = useState(100);
   const [color, setColor] = useState("black");
@@ -37,6 +38,13 @@ const MainApp = () => {
   const [grid, setGrid] = useState(() => {
     return generateEmptyGrid(numRows, numCols);
   });
+
+  useEffect(() => {
+      const width = window.screen.width;
+      if (width <= 414) {
+         setIsPhone(!isPhone);
+      }
+   },[])
 
   useEffect(() => {
     clearCells();
@@ -163,6 +171,7 @@ const MainApp = () => {
             changeGridSize={changeGridSize}
             changeSpeed={changeSpeed}
             changeGrid={changeGrid}
+            isPhone={isPhone}
          />
         
          <DisplayGrid 
@@ -172,6 +181,7 @@ const MainApp = () => {
             setGrid={setGrid}
             color={color}
             grid={grid}
+            isPhone={isPhone}
          />
 
         <GameDescription count={count} />

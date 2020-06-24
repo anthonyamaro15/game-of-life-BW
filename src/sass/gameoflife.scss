@@ -33,14 +33,26 @@ input {
          font-size: 1.8rem;
         
       }
+
+        @media (max-width: $phone) {
+         font-size: 1.5rem;
+         padding: 3rem 0 0;
+        
+      }
   }
 .Main-container {
   
   padding: 4rem 1rem 1rem;
-    border: 1px solid rgb(201, 197, 197);
+   //  border: 1px solid rgb(201, 197, 197);
   background: #f4f4f4f4;
   max-width: 1100px;
   margin: 4rem auto 0;
+
+    @media (max-width: $med-phone) {
+         overflow: hidden;
+        
+      }
+      
 
 
  
@@ -55,6 +67,12 @@ input {
     align-items: center;
     flex-wrap: wrap;
    //  border: 1px solid blue;
+
+   //   @media (max-width: $med-phone) {
+   //       justify-content: center;
+        
+   //    }
+      
 
     button {
       border: 1px solid grey;
@@ -72,6 +90,10 @@ input {
         
       }
       
+         @media (max-width: $phone) {
+         font-size: 0.6rem;
+        
+      }
       // &:first-child {
       //   margin: 0;
       // }
@@ -96,6 +118,10 @@ input {
         
       }
       
+         @media (max-width: $phone) {
+         font-size: 0.6rem;
+        
+      }
     }
 
     #size {
@@ -123,11 +149,11 @@ input {
       height: 15px;
       border: 1px solid black;
 
-      margin-left: -1px;
-      // margin-top: -1px;
+      // margin-left: -1px;
+      margin-top: -1px;
       margin-right: -1px;
-      margin-bottom: -1px;
-      // margin-left: -2rem;
+      // margin-bottom: -1px;
+      // margin-left: -1rem;
       // border-right: none;
 
       // border-left: none;
@@ -138,6 +164,13 @@ input {
       //    height: 12px;
         
       // }
+
+        @media (max-width: $phone) {
+         width: 12px;
+         height: 12px;
+        
+      }
+      
     }
 
     .cells {
@@ -153,6 +186,12 @@ input {
       //    height: 12px;
         
       // }
+
+        @media (max-width: $phone) {
+         width: 12px;
+         height: 12px;
+        
+      }
     }
   }
 
@@ -165,8 +204,15 @@ input {
 
              @media (max-width: $med-phone) {
          font-size: 1.8rem;
+
+           @media (max-width: $phone) {
+         font-size: 1.5rem;
         
       }
+        
+      }
+
+
       
     }
 
@@ -194,6 +240,12 @@ input {
 
      @media (max-width: $med-phone) {
          font-size: 0.9rem;
+        
+      }
+
+         @media (max-width: $phone) {
+         font-size: 0.7rem;
+         
         
       }
   }
@@ -234,8 +286,20 @@ input {
     text-align: center;
     padding: 3rem 1rem 2rem;
 
+       @media (max-width: $phone) {
+         padding: 2rem 1rem 1rem;
+        
+      }
+
+
+
     p {
       font-size: 0.8rem;
+
+        @media (max-width: $phone) {
+         font-size: 0.6rem;
+        
+      }
 
       span {
         font-weight: bold;
