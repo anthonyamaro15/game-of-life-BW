@@ -31,7 +31,7 @@ const DisplayGrid = ({numCols, grid, isCell, running, setGrid, color, isPhone}) 
                 style={{
                   backgroundColor: grid[i][k] ? color : undefined,
                 }}
-              ></button>
+              >{''}</button>
             ))
           )}
         </div>
