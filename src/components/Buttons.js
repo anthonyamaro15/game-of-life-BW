@@ -12,7 +12,7 @@ const Buttons = ({toggleStartStop, running, randomCells, clearCells, isCell, get
           <button onClick={randomCells}> random</button>
           <button onClick={changeGrid}>{!isCell ? 'grid': 'circles'}</button>
           <label htmlFor="colors">
-            <input type="color" onChange={getColor} placeholder="color" />
+            <input type="color" id="colors" onChange={getColor} placeholder="color" />
           </label>
 
           
@@ -21,7 +21,8 @@ const Buttons = ({toggleStartStop, running, randomCells, clearCells, isCell, get
             then we only display 2 grids to choose from
          */}
           {isPhone ? (
-             <select
+             <label htmlFor="size">
+               <select
             name="size"
             id="size"
             onChange={changeGridSize}
@@ -32,8 +33,11 @@ const Buttons = ({toggleStartStop, running, randomCells, clearCells, isCell, get
             <option value="20">20x20</option>
             <option value="30">30x30 (default)</option>
              </select>
+             </label>
+           
           ) : (
-               <select
+             <label htmlFor="size">
+                <select
             name="size"
             id="size"
             onChange={changeGridSize}
@@ -48,10 +52,13 @@ const Buttons = ({toggleStartStop, running, randomCells, clearCells, isCell, get
             <option value="60">60x60</option>
             <option value="70">70x70</option>
             </select>
+             </label>
+            
           )}
          
 
-          <select
+          <label htmlFor="speed">
+           <select
             name="speed"
             id="speed"
             onChange={changeSpeed}
@@ -63,6 +70,8 @@ const Buttons = ({toggleStartStop, running, randomCells, clearCells, isCell, get
             <option value="0">Super Fast</option>
      
           </select>
+          </label>
+         
         </div>
    )
 }
