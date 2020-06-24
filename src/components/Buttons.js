@@ -3,6 +3,7 @@ import React from 'react';
 const Buttons = ({toggleStartStop, running, randomCells, clearCells, isCell, getColor, changeGridSize, changeSpeed, changeGrid }) => {
    return (
        <div className="btns-container">
+       
           <button onClick={toggleStartStop}>
             {running ? "stop" : "start"}
           </button>

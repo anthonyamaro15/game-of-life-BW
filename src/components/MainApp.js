@@ -21,7 +21,6 @@ const generateEmptyGrid = (numRows, numCols) => {
   for (let i = 0; i < numRows; i++) {
     rows.push(Array.from(Array(numCols), () => 0));
   }
-  //  console.log(rows);
   return rows;
 };
 
@@ -43,6 +42,7 @@ const MainApp = () => {
     clearCells();
   }, [numCols, numRows]);
 
+  // useRef is always gonna be up to date when we use it in a callback
   const runningRef = useRef(running);
   runningRef.current = running;
 
@@ -53,7 +53,6 @@ const MainApp = () => {
 
     //  g is an array with live cells
     setGrid((g) => {
-      // const { numCols, numRows } = gridValues;
       return produce(g, (gridCopy) => {
         for (let i = 0; i < numRows; i++) {
           for (let k = 0; k < numCols; k++) {
@@ -88,6 +87,20 @@ const MainApp = () => {
   //   console.log("here ", grid);
   //   console.log("count here ", count);
 
+//   const generate = () => {
+//      let g = generateEmptyGrid(numRows, numCols);
+//      g[2][2] = 1;
+//      g[2][3] = 1;
+//      g[2][4] = 1;
+//      g[3][1] = 1;
+//      g[3][2] = 1;
+//      g[3][3] = 1;
+//      return g;
+
+//   }
+
+//   console.log('here ', generate());
+
   function clearCells() {
     setGrid(generateEmptyGrid(numRows, numCols));
     setCount(0);
@@ -99,8 +112,8 @@ const MainApp = () => {
       randomCells();
     }
   };
-  //   console.log("current values ", gridValues);
 
+   //  this function is going to fill the grid with random alive and dead cells
   function randomCells() {
     const rows = [];
     for (let i = 0; i < numRows; i++) {
@@ -122,12 +135,10 @@ const MainApp = () => {
   };
 
   const changeSpeed = (value) => {
-    //  console.log(value.target.value);
     const toNum = Number(value.target.value);
     setSpeed(toNum);
   };
   const toggleStartStop = (e) => {
-    //  console.log("here ", e.target.value);
     setRunning(!running);
     if (!running) {
       runningRef.current = true;
@@ -136,15 +147,14 @@ const MainApp = () => {
   };
 
   const getColor = (e) => {
-    //  console.log(e.target.value);
     setColor(e.target.value);
   };
 
-  //   console.log("check ", grid);
   return (
     <>
+    <h1 className="title">Conway's Game of Life</h1>
       <div className="Main-container">
-        <h1 className="title">Conway's Game of Life</h1>
+        
          <Buttons toggleStartStop={toggleStartStop} running={running}
             randomCells={randomCells}
             clearCells={clearCells}
